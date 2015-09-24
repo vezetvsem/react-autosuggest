@@ -287,7 +287,17 @@ export default class Autosuggest extends Component {
   }
 
   onSuggestionSelected(event) {
-    const focusedSuggestion = this.getFocusedSuggestion();
+    let focusedSuggestion = this.getFocusedSuggestion(); // Required when Enter is pressed
+
+    if (focusedSuggestion === null) {
+      // We are on a mobile device
+      const sectionIndex = event.target.getAttribute('data-section-index');
+      const touchedSectionIndex = (typeof sectionIndex === 'string' ? +sectionIndex : null);
+      const touchedSuggestionIndex = +event.target.getAttribute('data-suggestion-index');
+
+      focusedSuggestion =
+        this.getSuggestion(touchedSectionIndex, touchedSuggestionIndex);
+    }
 
     this.props.onSuggestionUnfocused(focusedSuggestion);
     this.props.onSuggestionSelected(focusedSuggestion, event);
@@ -422,7 +432,7 @@ export default class Autosuggest extends Component {
     });
   }
 
-  onSuggestionMouseDown(sectionIndex, suggestionIndex, event) {
+  onSuggestionClick(sectionIndex, suggestionIndex, event) {
     const suggestionValue = this.getSuggestionValue(sectionIndex, suggestionIndex);
 
     this.justClickedOnSuggestion = true;
@@ -486,16 +496,21 @@ export default class Autosuggest extends Component {
       );
       const suggestionRef =
         this.getSuggestionRef(sectionIndex, suggestionIndex);
+      const onSuggestionClick = event =>
+        this.onSuggestionClick(sectionIndex, suggestionIndex, event);
 
       return (
         <li id={this.getSuggestionId(sectionIndex, suggestionIndex)}
-            { ...styles }
+            {...styles}
             role="option"
             ref={suggestionRef}
             key={suggestionRef}
+            data-section-index={sectionIndex}
+            data-suggestion-index={suggestionIndex}
             onMouseEnter={() => this.onSuggestionMouseEnter(sectionIndex, suggestionIndex)}
             onMouseLeave={() => this.onSuggestionMouseLeave(sectionIndex, suggestionIndex)}
-            onMouseDown={event => this.onSuggestionMouseDown(sectionIndex, suggestionIndex, event)}>
+            onMouseDown={onSuggestionClick}
+            onTouchStart={onSuggestionClick}>
           {this.renderSuggestionContent(suggestion)}
         </li>
       );
