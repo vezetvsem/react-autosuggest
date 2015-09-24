@@ -2,7 +2,6 @@ require('./Examples.less');
 require('./Autosuggest.less');
 
 import React, { Component, findDOMNode } from 'react';
-import classnames from 'classnames';
 import BasicExample from './BasicExample/BasicExample';
 import CustomRenderer from './CustomRenderer/CustomRenderer';
 import MultipleSections from './MultipleSections/MultipleSections';
@@ -45,10 +44,8 @@ export default class Examples extends Component {
     return (
       <div className="examples__menu" role="menu">
         {this.examples.map(example => {
-          const classes = classnames({
-            'examples__menu-item': true,
-            'examples__menu-item--active': example === this.state.activeExample
-          });
+          const classes = 'examples__menu-item' +
+            (example === this.state.activeExample ? ' examples__menu-item--active' : '');
 
           return (
             <div className={classes}
