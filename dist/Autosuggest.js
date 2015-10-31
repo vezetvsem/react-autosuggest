@@ -62,7 +62,7 @@ var Autosuggest = (function (_Component) {
       id: _react.PropTypes.string, // Used in aria-* attributes. If multiple Autosuggest's are rendered on a page, they must have unique ids.
       scrollBar: _react.PropTypes.bool, // Set it to true when the suggestions container can have a scroll bar
       theme: _react.PropTypes.object, // Custom theme. See: https://github.com/markdalgleish/react-themeable
-      inputComponent: _react.PropTypes.object
+      InputControl: _react.PropTypes.func
     },
     enumerable: true
   }, {
@@ -657,7 +657,7 @@ var Autosuggest = (function (_Component) {
       var _props = this.props;
       var id = _props.id;
       var inputAttributes = _props.inputAttributes;
-      var inputComponent = _props.inputComponent;
+      var InputControl = _props.InputControl;
       var _state = this.state;
       var value = _state.value;
       var suggestions = _state.suggestions;
@@ -670,7 +670,7 @@ var Autosuggest = (function (_Component) {
       return _react2['default'].createElement(
         'div',
         theme('root', 'root'),
-        _react2['default'].createElement('inputComponent', _extends({}, inputAttributes, {
+        _react2['default'].createElement(InputControl, _extends({}, inputAttributes, {
           type: inputAttributes.type || 'text',
           value: value,
           autoComplete: 'off',

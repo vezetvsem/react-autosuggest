@@ -23,7 +23,7 @@ export default class Autosuggest extends Component {
     id: PropTypes.string,                   // Used in aria-* attributes. If multiple Autosuggest's are rendered on a page, they must have unique ids.
     scrollBar: PropTypes.bool,              // Set it to true when the suggestions container can have a scroll bar
     theme: PropTypes.object,                 // Custom theme. See: https://github.com/markdalgleish/react-themeable
-    inputComponent: PropTypes.object
+    InputControl: PropTypes.func
   }
 
   static defaultProps = {
@@ -565,14 +565,14 @@ export default class Autosuggest extends Component {
   }
 
   render() {
-    const { id, inputAttributes, inputComponent } = this.props;
+    const { id, inputAttributes, InputControl } = this.props;
     const { value, suggestions, focusedSectionIndex, focusedSuggestionIndex } = this.state;
     const theme = themeable(this.props.theme);
     const ariaActivedescendant = this.getSuggestionId(focusedSectionIndex, focusedSuggestionIndex);
 
     return (
       <div {...theme('root', 'root')}>
-        <inputComponent {...inputAttributes}
+        <InputControl {...inputAttributes}
                type={inputAttributes.type || 'text'}
                value={value}
                autoComplete="off"
