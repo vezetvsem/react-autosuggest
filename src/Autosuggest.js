@@ -23,7 +23,7 @@ export default class Autosuggest extends Component {
     id: PropTypes.string,                   // Used in aria-* attributes. If multiple Autosuggest's are rendered on a page, they must have unique ids.
     scrollBar: PropTypes.bool,              // Set it to true when the suggestions container can have a scroll bar
     theme: PropTypes.object,                 // Custom theme. See: https://github.com/markdalgleish/react-themeable
-    inputComponent: PropTypes.component
+    inputComponent: PropTypes.object
   }
 
   static defaultProps = {
