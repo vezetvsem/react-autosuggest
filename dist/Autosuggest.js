@@ -22,8 +22,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _reactDom = require('react-dom');
-
 var _debounce = require('debounce');
 
 var _debounce2 = _interopRequireDefault(_debounce);
@@ -35,12 +33,6 @@ var _reactThemeable2 = _interopRequireDefault(_reactThemeable);
 var _sectionIterator = require('./sectionIterator');
 
 var _sectionIterator2 = _interopRequireDefault(_sectionIterator);
-
-var _reactTapEventPlugin = require('react-tap-event-plugin');
-
-var _reactTapEventPlugin2 = _interopRequireDefault(_reactTapEventPlugin);
-
-(0, _reactTapEventPlugin2['default'])();
 
 var Autosuggest = (function (_Component) {
   _inherits(Autosuggest, _Component);
@@ -62,7 +54,7 @@ var Autosuggest = (function (_Component) {
       id: _react.PropTypes.string, // Used in aria-* attributes. If multiple Autosuggest's are rendered on a page, they must have unique ids.
       scrollBar: _react.PropTypes.bool, // Set it to true when the suggestions container can have a scroll bar
       theme: _react.PropTypes.object, // Custom theme. See: https://github.com/markdalgleish/react-themeable
-      InputControl: _react.PropTypes.func
+      InputControl: _react.PropTypes.func // Custom input component
     },
     enumerable: true
   }, {
@@ -133,7 +125,7 @@ var Autosuggest = (function (_Component) {
     key: 'componentWillReceiveProps',
     value: function componentWillReceiveProps(nextProps) {
       if (this.isControlledComponent) {
-        var inputValue = (0, _reactDom.findDOMNode)(this.refs.input).value;
+        var inputValue = this.refs.input.value;
 
         if (nextProps.value !== inputValue && !this.justClickedOnSuggestion && !this.justPressedUpDown && !this.justPressedEsc) {
           this.handleValueChange(nextProps.value);
@@ -313,9 +305,9 @@ var Autosuggest = (function (_Component) {
         }
       }
 
-      var suggestions = (0, _reactDom.findDOMNode)(this.refs.suggestions);
+      var suggestions = this.refs.suggestions;
       var suggestionRef = this.getSuggestionRef(sectionIndex, suggestionIndex);
-      var suggestion = (0, _reactDom.findDOMNode)(this.refs[suggestionRef]);
+      var suggestion = this.refs[suggestionRef];
 
       this.scrollToElement(suggestions, suggestion, alignTo);
     }
@@ -365,16 +357,7 @@ var Autosuggest = (function (_Component) {
   }, {
     key: 'onSuggestionSelected',
     value: function onSuggestionSelected(event) {
-      var focusedSuggestion = this.getFocusedSuggestion(); // Required when Enter is pressed
-
-      if (focusedSuggestion === null) {
-        // We are on a mobile device
-        var sectionIndex = event.target.getAttribute('data-section-index');
-        var touchedSectionIndex = typeof sectionIndex === 'string' ? +sectionIndex : null;
-        var touchedSuggestionIndex = +event.target.getAttribute('data-suggestion-index');
-
-        focusedSuggestion = this.getSuggestion(touchedSectionIndex, touchedSuggestionIndex);
-      }
+      var focusedSuggestion = this.getFocusedSuggestion();
 
       this.props.onSuggestionUnfocused(focusedSuggestion);
       this.props.onSuggestionSelected(focusedSuggestion, event);
@@ -410,9 +393,8 @@ var Autosuggest = (function (_Component) {
           // Enter
           if (this.state.valueBeforeUpDown !== null && this.suggestionIsFocused()) {
             this.onSuggestionSelected(event);
+            this.setSuggestionsState(null);
           }
-
-          this.setSuggestionsState(null);
           break;
 
         case 27:
@@ -469,9 +451,9 @@ var Autosuggest = (function (_Component) {
   }, {
     key: 'onInputFocus',
     value: function onInputFocus(event) {
-      if (!this.justClickedOnSuggestion) {
-        this.showSuggestions(this.state.value);
-      }
+      //if (!this.justClickedOnSuggestion) {
+      this.showSuggestions(this.state.value);
+      //}
 
       this.onFocus(event);
     }
@@ -516,8 +498,8 @@ var Autosuggest = (function (_Component) {
       });
     }
   }, {
-    key: 'onSuggestionClick',
-    value: function onSuggestionClick(sectionIndex, suggestionIndex, event) {
+    key: 'onSuggestionMouseDown',
+    value: function onSuggestionMouseDown(sectionIndex, suggestionIndex, event) {
       var _this4 = this;
 
       var suggestionValue = this.getSuggestionValue(sectionIndex, suggestionIndex);
@@ -539,7 +521,7 @@ var Autosuggest = (function (_Component) {
       }, function () {
         // This code executes after the component is re-rendered
         setTimeout(function () {
-          (0, _reactDom.findDOMNode)(_this4.refs.input).focus();
+          _this4.refs.input.focus();
           _this4.justClickedOnSuggestion = false;
         });
       });
@@ -579,9 +561,6 @@ var Autosuggest = (function (_Component) {
       return suggestions.map(function (suggestion, suggestionIndex) {
         var styles = theme(suggestionIndex, 'suggestion', sectionIndex === _this5.state.focusedSectionIndex && suggestionIndex === _this5.state.focusedSuggestionIndex && 'suggestionIsFocused');
         var suggestionRef = _this5.getSuggestionRef(sectionIndex, suggestionIndex);
-        var onSuggestionClick = function onSuggestionClick(event) {
-          return _this5.onSuggestionClick(sectionIndex, suggestionIndex, event);
-        };
 
         return _react2['default'].createElement(
           'li',
@@ -590,16 +569,15 @@ var Autosuggest = (function (_Component) {
             role: 'option',
             ref: suggestionRef,
             key: suggestionRef,
-            'data-section-index': sectionIndex,
-            'data-suggestion-index': suggestionIndex,
             onMouseEnter: function () {
               return _this5.onSuggestionMouseEnter(sectionIndex, suggestionIndex);
             },
             onMouseLeave: function () {
               return _this5.onSuggestionMouseLeave(sectionIndex, suggestionIndex);
             },
-            onMouseDown: onSuggestionClick,
-            onTouchTap: onSuggestionClick }),
+            onMouseDown: function (event) {
+              return _this5.onSuggestionMouseDown(sectionIndex, suggestionIndex, event);
+            } }),
           _this5.renderSuggestionContent(suggestion)
         );
       });

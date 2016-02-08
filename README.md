@@ -15,6 +15,12 @@
 
 [WAI-ARIA compliant][wai-aria] React autosuggest component.
 
+## Coming soon...
+
+Support for flux architecture, including redux.
+
+Check out the [redux examples](https://github.com/moroshko/react-autosuggest/tree/3.0/demo/src/components/App/components) and <a href="http://codepen.io/moroshko/pen/LGNJMy" target="_blank">Codepen playground</a>.
+
 ## Live Examples
 
 * <a href="https://moroshko.github.io/react-autosuggest" target="_blank">Basic example</a><br>
