@@ -451,9 +451,9 @@ var Autosuggest = (function (_Component) {
   }, {
     key: 'onInputFocus',
     value: function onInputFocus(event) {
-      //if (!this.justClickedOnSuggestion) {
-      this.showSuggestions(this.state.value);
-      //}
+      if (!this.justClickedOnSuggestion) {
+        this.showSuggestions(this.state.value);
+      }
 
       this.onFocus(event);
     }
@@ -522,7 +522,7 @@ var Autosuggest = (function (_Component) {
         // This code executes after the component is re-rendered
         setTimeout(function () {
           //this.refs.input.focus();
-          //this.refs.input.refs.input.focus();
+          _this4.refs.input.refs.input.focus();
           _this4.justClickedOnSuggestion = false;
         });
       });
