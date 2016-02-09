@@ -442,7 +442,8 @@ export default class Autosuggest extends Component {
     }, () => {
       // This code executes after the component is re-rendered
       setTimeout(() => {
-        this.refs.input.focus();
+        //this.refs.input.focus();
+        //this.refs.input.refs.input.focus();
         this.justClickedOnSuggestion = false;
       });
     });
@@ -562,6 +563,7 @@ export default class Autosuggest extends Component {
                aria-expanded={suggestions !== null}
                aria-activedescendant={ariaActivedescendant}
                ref="input"
+               inputRef="input"
                onChange={this.onInputChange}
                onKeyDown={this.onInputKeyDown}
                onFocus={this.onInputFocus}
