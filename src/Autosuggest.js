@@ -378,9 +378,9 @@ export default class Autosuggest extends Component {
   }
 
   onInputFocus(event) {
-    //if (!this.justClickedOnSuggestion) {
+    if (!this.justClickedOnSuggestion) {
       this.showSuggestions(this.state.value);
-    //}
+    }
 
     this.onFocus(event);
   }
@@ -443,7 +443,7 @@ export default class Autosuggest extends Component {
       // This code executes after the component is re-rendered
       setTimeout(() => {
         //this.refs.input.focus();
-        //this.refs.input.refs.input.focus();
+        this.refs.input.refs.input.focus();
         this.justClickedOnSuggestion = false;
       });
     });
