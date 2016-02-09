@@ -521,7 +521,8 @@ var Autosuggest = (function (_Component) {
       }, function () {
         // This code executes after the component is re-rendered
         setTimeout(function () {
-          _this4.refs.input.focus();
+          //this.refs.input.focus();
+          //this.refs.input.refs.input.focus();
           _this4.justClickedOnSuggestion = false;
         });
       });
@@ -658,6 +659,7 @@ var Autosuggest = (function (_Component) {
           'aria-expanded': suggestions !== null,
           'aria-activedescendant': ariaActivedescendant,
           ref: 'input',
+          inputRef: 'input',
           onChange: this.onInputChange,
           onKeyDown: this.onInputKeyDown,
           onFocus: this.onInputFocus,
