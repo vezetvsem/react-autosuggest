@@ -659,7 +659,7 @@ var Autosuggest = (function (_Component) {
           'aria-expanded': suggestions !== null,
           'aria-activedescendant': ariaActivedescendant,
           ref: 'input',
-          inputRef: 'input',
+          inputRef: inputAttributes.inputRef || 'input',
           onChange: this.onInputChange,
           onKeyDown: this.onInputKeyDown,
           onFocus: this.onInputFocus,
