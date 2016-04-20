@@ -522,7 +522,11 @@ var Autosuggest = (function (_Component) {
         // This code executes after the component is re-rendered
         setTimeout(function () {
           //this.refs.input.focus();
-          _this4.refs.input.refs.input.focus();
+
+          if (_this4.refs.input.refs && _this4.refs.input.refs.input) {
+            _this4.refs.input.refs.input.focus();
+          }
+
           _this4.justClickedOnSuggestion = false;
         });
       });

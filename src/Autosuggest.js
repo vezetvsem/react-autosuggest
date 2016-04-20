@@ -443,7 +443,11 @@ export default class Autosuggest extends Component {
       // This code executes after the component is re-rendered
       setTimeout(() => {
         //this.refs.input.focus();
-        this.refs.input.refs.input.focus();
+        
+        if (this.refs.input.refs && this.refs.input.refs.input) {
+          this.refs.input.refs.input.focus();
+        }
+        
         this.justClickedOnSuggestion = false;
       });
     });
