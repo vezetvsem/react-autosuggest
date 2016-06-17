@@ -54,7 +54,8 @@ var Autosuggest = (function (_Component) {
       id: _react.PropTypes.string, // Used in aria-* attributes. If multiple Autosuggest's are rendered on a page, they must have unique ids.
       scrollBar: _react.PropTypes.bool, // Set it to true when the suggestions container can have a scroll bar
       theme: _react.PropTypes.object, // Custom theme. See: https://github.com/markdalgleish/react-themeable
-      InputControl: _react.PropTypes.func // Custom input component
+      InputControl: _react.PropTypes.func, // Custom input component
+      clearAfterMouseSuggestionSelected: _react.PropTypes.bool
     },
     enumerable: true
   }, {
@@ -78,7 +79,8 @@ var Autosuggest = (function (_Component) {
         section: 'react-autosuggest__suggestions-section',
         sectionName: 'react-autosuggest__suggestions-section-name',
         sectionSuggestions: 'react-autosuggest__suggestions-section-suggestions'
-      }
+      },
+      clearAfterMouseSuggestionSelected: false
     },
     enumerable: true
   }]);
@@ -513,7 +515,7 @@ var Autosuggest = (function (_Component) {
       }
 
       this.setState({
-        value: suggestionValue,
+        value: this.props.clearAfterMouseSuggestionSelected ? '' : suggestionValue,
         suggestions: null,
         focusedSectionIndex: null,
         focusedSuggestionIndex: null,

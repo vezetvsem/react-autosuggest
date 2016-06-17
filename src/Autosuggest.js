@@ -19,7 +19,8 @@ export default class Autosuggest extends Component {
     id: PropTypes.string,                   // Used in aria-* attributes. If multiple Autosuggest's are rendered on a page, they must have unique ids.
     scrollBar: PropTypes.bool,              // Set it to true when the suggestions container can have a scroll bar
     theme: PropTypes.object,                // Custom theme. See: https://github.com/markdalgleish/react-themeable
-    InputControl: PropTypes.func            // Custom input component
+    InputControl: PropTypes.func,           // Custom input component
+    clearAfterMouseSuggestionSelected: PropTypes.bool,
   }
 
   static defaultProps = {
@@ -39,7 +40,8 @@ export default class Autosuggest extends Component {
       section: 'react-autosuggest__suggestions-section',
       sectionName: 'react-autosuggest__suggestions-section-name',
       sectionSuggestions: 'react-autosuggest__suggestions-section-suggestions'
-    }
+    },
+    clearAfterMouseSuggestionSelected: false,
   }
 
   constructor(props) {
@@ -434,7 +436,7 @@ export default class Autosuggest extends Component {
     }
 
     this.setState({
-      value: suggestionValue,
+      value: this.props.clearAfterMouseSuggestionSelected ? '' : suggestionValue,
       suggestions: null,
       focusedSectionIndex: null,
       focusedSuggestionIndex: null,
